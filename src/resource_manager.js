@@ -80,6 +80,49 @@ class ResourceManager {
       hasPreviousPage: page > 1
     };
   }
+
+  /**
+   * BUGGY VERSION - Issue #5: Null Pointer Exception in Search Query Handler
+   * This version crashes when query is null, undefined, or empty string
+   * by calling .toLowerCase() on a potentially null value.
+   */
+  searchResourcesBuggy(query) {
+    // BUG: No validation - calling .toLowerCase() on null/undefined will throw TypeError
+    const searchTerm = query.toLowerCase();
+
+    return this.resources.filter(resource =>
+      resource.title.toLowerCase().includes(searchTerm) ||
+      resource.category.toLowerCase().includes(searchTerm)
+    );
+  }
+
+  /**
+   * FIXED VERSION - Issue #5: Null Pointer Exception in Search Query Handler
+   *
+   * DEVICE COMPATIBILITY FIX:
+   * This guard clause prevents crashes on low-resource devices like the Infinix Smart 9 HD
+   * when users interact with the search bar. Entry-level smartphones often have limited
+   * memory and slower processors; an unhandled exception in the search handler can
+   * freeze the UI or crash the entire application, creating a poor user experience
+   * for users who may not have access to higher-end devices.
+   *
+   * By returning an empty array for invalid queries, we ensure the search function
+   * degrades gracefully rather than throwing an error that the device's limited
+   * resources may struggle to recover from.
+   */
+  searchResources(query) {
+    // FIX: Guard clause - handle null, undefined, or empty string queries gracefully
+    if (!query || typeof query !== 'string' || query.trim() === '') {
+      return [];
+    }
+
+    const searchTerm = query.toLowerCase().trim();
+
+    return this.resources.filter(resource =>
+      resource.title.toLowerCase().includes(searchTerm) ||
+      resource.category.toLowerCase().includes(searchTerm)
+    );
+  }
 }
 
 // Example usage demonstrating the bug and the fix
