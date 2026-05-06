@@ -1,9 +1,21 @@
 /**
- * ResourceManager - Manages a collection of library resources
+ * ResourceManager - Core business logic for managing library resources
  * Issue #4: FIX: Logic Error in Resource List Pagination
  * Issue #5: FIX: Null Pointer Exception in Search Query Handler
  * Issue #6: FEAT: Implement Nuer Language Localization Support
  * Issue #7: FEAT: Add Metadata-Based Searchable Resource Database
+ * Issue #8: REFACTOR: Optimize Directory Structure and Resource Indexing
+ *
+ * MODULAR ARCHITECTURE RATIONALE:
+ * This file resides in src/core/ to enforce separation of concerns between business
+ * logic and presentation/assets. In a community-driven project like BOSC, different
+ * contributors may specialize: some focus on core algorithms and data models, while
+ * others work on UI components or localization assets. By isolating core logic here,
+ * we enable parallel development where frontend contributors can modify assets/ and
+ * UI code without risking regressions in the resource management engine. This structure
+ * also facilitates testing, as core logic can be unit-tested independently of the
+ * presentation layer, and makes the codebase more approachable for new contributors
+ * who can immediately understand where to find specific functionality.
  */
 
 class ResourceManager {
