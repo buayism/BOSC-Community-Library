@@ -3,22 +3,93 @@
  * Issue #4: FIX: Logic Error in Resource List Pagination
  * Issue #5: FIX: Null Pointer Exception in Search Query Handler
  * Issue #6: FEAT: Implement Nuer Language Localization Support
+ * Issue #7: FEAT: Add Metadata-Based Searchable Resource Database
  */
 
 class ResourceManager {
   constructor() {
-    // Initialize with 10 mock library resources
+    // Initialize with 10 mock library resources with metadata for filtering
     this.resources = [
-      { id: 1, title: 'Introduction to Open Source', category: 'Education' },
-      { id: 2, title: 'Public Sector Transparency Guide', category: 'Government' },
-      { id: 3, title: 'Community Building Handbook', category: 'Community' },
-      { id: 4, title: 'Digital Accessibility Standards', category: 'Technology' },
-      { id: 5, title: 'Open Data Best Practices', category: 'Data' },
-      { id: 6, title: 'Collaborative Development Methods', category: 'Development' },
-      { id: 7, title: 'Legal Frameworks for OSS', category: 'Legal' },
-      { id: 8, title: 'Documentation Guidelines', category: 'Documentation' },
-      { id: 9, title: 'Version Control Fundamentals', category: 'Technology' },
-      { id: 10, title: 'Inclusive Design Principles', category: 'Design' }
+      {
+        id: 1,
+        title: 'Introduction to Open Source',
+        category: 'Education',
+        author: 'Dr. Sarah Johnson',
+        department: 'Education',
+        year: 2023
+      },
+      {
+        id: 2,
+        title: 'Public Sector Transparency Guide',
+        category: 'Government',
+        author: 'Michael Okello',
+        department: 'Governance',
+        year: 2024
+      },
+      {
+        id: 3,
+        title: 'Community Building Handbook',
+        category: 'Community',
+        author: 'Amina Hassan',
+        department: 'Community Development',
+        year: 2023
+      },
+      {
+        id: 4,
+        title: 'Digital Accessibility Standards',
+        category: 'Technology',
+        author: 'Dr. James Chen',
+        department: 'Technology',
+        year: 2024
+      },
+      {
+        id: 5,
+        title: 'Open Data Best Practices',
+        category: 'Data',
+        author: 'Fatima Al-Rashid',
+        department: 'Data & Analytics',
+        year: 2023
+      },
+      {
+        id: 6,
+        title: 'Collaborative Development Methods',
+        category: 'Development',
+        author: 'David Kimani',
+        department: 'Technology',
+        year: 2024
+      },
+      {
+        id: 7,
+        title: 'Legal Frameworks for OSS',
+        category: 'Legal',
+        author: 'Prof. Elena Petrova',
+        department: 'Legal Affairs',
+        year: 2023
+      },
+      {
+        id: 8,
+        title: 'Documentation Guidelines',
+        category: 'Documentation',
+        author: 'Grace Oduya',
+        department: 'Education',
+        year: 2024
+      },
+      {
+        id: 9,
+        title: 'Version Control Fundamentals',
+        category: 'Technology',
+        author: 'Samuel Deng',
+        department: 'Technology',
+        year: 2023
+      },
+      {
+        id: 10,
+        title: 'Inclusive Design Principles',
+        category: 'Design',
+        author: 'Priya Sharma',
+        department: 'Health',
+        year: 2024
+      }
     ];
   }
 
@@ -124,6 +195,80 @@ class ResourceManager {
       resource.title.toLowerCase().includes(searchTerm) ||
       resource.category.toLowerCase().includes(searchTerm)
     );
+  }
+
+  /**
+   * Issue #7: FEAT: Add Metadata-Based Searchable Resource Database
+   *
+   * SCALABILITY & INTER-DEPARTMENTAL COLLABORATION:
+   * This metadata-driven filtering architecture enables the BOSC Library to scale
+   * organically as new departments contribute resources. By standardizing on core
+   * metadata fields (author, department, year), we create a consistent taxonomy
+   * that allows resources from Health, Education, Governance, and other sectors
+   * to coexist in a unified, searchable repository. As additional departments
+   * onboard, they simply populate these standardized fields—no schema changes
+   * or code modifications required. This design supports the BOSC mission of
+   * cross-sector knowledge sharing and ensures that resources from diverse
+   * contributors remain discoverable and accessible through a common interface.
+   *
+   * @param {Object} criteria - Filter criteria object with optional properties:
+   *   - department: {string} Filter by department name
+   *   - year: {number} Filter by publication year
+   *   - author: {string} Filter by author name (partial match)
+   * @returns {Array} Filtered array of resources matching all criteria
+   */
+  filterResourcesByMetadata(criteria) {
+    // Return all resources if no criteria provided
+    if (!criteria || Object.keys(criteria).length === 0) {
+      return this.resources;
+    }
+
+    return this.resources.filter(resource => {
+      // Check each criterion - all must match (AND logic)
+
+      // Department filter
+      if (criteria.department !== undefined) {
+        if (resource.department !== criteria.department) {
+          return false;
+        }
+      }
+
+      // Year filter
+      if (criteria.year !== undefined) {
+        if (resource.year !== criteria.year) {
+          return false;
+        }
+      }
+
+      // Author filter (partial match, case-insensitive)
+      if (criteria.author !== undefined) {
+        const searchAuthor = criteria.author.toLowerCase();
+        if (!resource.author.toLowerCase().includes(searchAuthor)) {
+          return false;
+        }
+      }
+
+      // All criteria matched
+      return true;
+    });
+  }
+
+  /**
+   * Get all unique departments from the resource collection
+   * @returns {Array} Array of unique department names
+   */
+  getDepartments() {
+    const departments = new Set(this.resources.map(r => r.department));
+    return Array.from(departments).sort();
+  }
+
+  /**
+   * Get all unique years from the resource collection
+   * @returns {Array} Array of unique years (sorted descending)
+   */
+  getYears() {
+    const years = new Set(this.resources.map(r => r.year));
+    return Array.from(years).sort((a, b) => b - a);
   }
 }
 
