@@ -1,0 +1,36 @@
+{
+  "language": "English",
+  "languageCode": "en",
+  "ui": {
+    "search": "Search",
+    "next": "Next",
+    "previous": "Previous",
+    "libraryResources": "Library Resources",
+    "noResults": "No results found",
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "home": "Home",
+    "about": "About",
+    "contact": "Contact",
+    "welcome": "Welcome",
+    "browseCatalog": "Browse Catalog",
+    "viewDetails": "View Details",
+    "download": "Download",
+    "share": "Share",
+    "filterBy": "Filter by",
+    "sortBy": "Sort by",
+    "page": "Page",
+    "of": "of",
+    "results": "results",
+    "categories": "Categories",
+    "all": "All"
+  },
+  "messages": {
+    "welcomeMessage": "Welcome to the BOSC Community Library",
+    "searchPlaceholder": "Search for resources...",
+    "emptySearch": "Please enter a search term",
+    "resourceNotFound": "Resource not found"
+  }
+}

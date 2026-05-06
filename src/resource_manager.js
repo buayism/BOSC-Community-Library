@@ -1,6 +1,8 @@
 /**
  * ResourceManager - Manages a collection of library resources
  * Issue #4: FIX: Logic Error in Resource List Pagination
+ * Issue #5: FIX: Null Pointer Exception in Search Query Handler
+ * Issue #6: FEAT: Implement Nuer Language Localization Support
  */
 
 class ResourceManager {
@@ -141,4 +143,166 @@ if (require.main === module) {
   console.log('Requesting page 4:', manager.getPaginatedResources(4, 3));
 }
 
-module.exports = ResourceManager;
+/**
+ * LocalizationManager - Issue #6: FEAT: Implement Nuer Language Localization Support
+ *
+ * MISSION ALIGNMENT:
+ * This localization system directly supports the BOSC Community Library's mission of
+ * inclusive access to information for regional users. By providing native support
+ * for the Nuer language (Thok Naath), we ensure that community members in South Sudan
+ * and Ethiopia can access library resources in their mother tongue, removing language
+ * barriers that often exclude underrepresented populations from digital knowledge
+ * platforms. This feature embodies our commitment to equity, accessibility, and
+ * serving diverse communities with culturally appropriate technology.
+ */
+class LocalizationManager {
+  constructor() {
+    // Load available locales
+    this.locales = {
+      en: {
+        language: 'English',
+        languageCode: 'en',
+        ui: {
+          search: 'Search',
+          next: 'Next',
+          previous: 'Previous',
+          libraryResources: 'Library Resources',
+          noResults: 'No results found',
+          loading: 'Loading...',
+          error: 'An error occurred',
+          submit: 'Submit',
+          cancel: 'Cancel',
+          home: 'Home',
+          about: 'About',
+          contact: 'Contact',
+          welcome: 'Welcome',
+          browseCatalog: 'Browse Catalog',
+          viewDetails: 'View Details',
+          download: 'Download',
+          share: 'Share',
+          filterBy: 'Filter by',
+          sortBy: 'Sort by',
+          page: 'Page',
+          of: 'of',
+          results: 'results',
+          categories: 'Categories',
+          all: 'All'
+        },
+        messages: {
+          welcomeMessage: 'Welcome to the BOSC Community Library',
+          searchPlaceholder: 'Search for resources...',
+          emptySearch: 'Please enter a search term',
+          resourceNotFound: 'Resource not found'
+        }
+      },
+      nus: {
+        language: 'Thok Naath',
+        languageCode: 'nus',
+        ui: {
+          search: 'Guɔ̲ɔ̲p',
+          next: 'Raar',
+          previous: 'Yɛn',
+          libraryResources: 'Kuɔny Thölibuk',
+          noResults: 'Ŋuɔ̲tä̲ ca̲a̲ kɛ kuay',
+          loading: 'Kuay ɛ rɛɛr...',
+          error: 'Gua̱a̲th mi̱th ɛ cuŋɛ',
+          submit: 'Gɔaa',
+          cancel: 'Raal',
+          home: 'Wa̱a̲',
+          about: 'Kuany',
+          contact: 'La̱t',
+          welcome: 'Yin wa̱a̲',
+          browseCatalog: 'Ji̱i̱k Käŋ',
+          viewDetails: 'Nɛn Käŋ',
+          download: 'Ɛɛl',
+          share: 'Pa̱a̲',
+          filterBy: 'Ta̱a̲ ka̱n',
+          sortBy: 'Thooi̱ ka̱n',
+          page: 'Wɛt',
+          of: 'kɛ',
+          results: 'Ŋuɔ̲tä̲',
+          categories: 'Thoŋ',
+          all: 'Kuay'
+        },
+        messages: {
+          welcomeMessage: 'Yin wa̱a̲ Kuɔny Thölibuk BOSC',
+          searchPlaceholder: 'Guɔ̲ɔ̲p kuɔny...',
+          emptySearch: 'Ci̱th mä̲ kuay kuɔ̲ɔ̲p',
+          resourceNotFound: 'Kuɔny ca̲a̲ kɛ kɔc'
+        }
+      }
+    };
+
+    // Default to English
+    this.currentLocale = 'en';
+  }
+
+  /**
+   * Set the current locale/language
+   * @param {string} localeCode - Language code ('en' for English, 'nus' for Nuer)
+   */
+  setLocale(localeCode) {
+    if (this.locales[localeCode]) {
+      this.currentLocale = localeCode;
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Get the current locale code
+   * @returns {string} Current locale code
+   */
+  getCurrentLocale() {
+    return this.currentLocale;
+  }
+
+  /**
+   * Get available locales
+   * @returns {Array} List of available locale codes and names
+   */
+  getAvailableLocales() {
+    return Object.keys(this.locales).map(code => ({
+      code: code,
+      name: this.locales[code].language
+    }));
+  }
+
+  /**
+   * Get a UI label by key in the current locale
+   * @param {string} key - UI label key
+   * @returns {string} Localized UI label
+   */
+  getUI(key) {
+    const locale = this.locales[this.currentLocale];
+    return locale.ui[key] || locale.ui[key] || key;
+  }
+
+  /**
+   * Get a message by key in the current locale
+   * @param {string} key - Message key
+   * @returns {string} Localized message
+   */
+  getMessage(key) {
+    const locale = this.locales[this.currentLocale];
+    return locale.messages[key] || locale.messages[key] || key;
+  }
+
+  /**
+   * Get all UI labels for the current locale
+   * @returns {Object} All UI labels
+   */
+  getAllUI() {
+    return this.locales[this.currentLocale].ui;
+  }
+
+  /**
+   * Get all messages for the current locale
+   * @returns {Object} All messages
+   */
+  getAllMessages() {
+    return this.locales[this.currentLocale].messages;
+  }
+}
+
+module.exports = { ResourceManager, LocalizationManager };

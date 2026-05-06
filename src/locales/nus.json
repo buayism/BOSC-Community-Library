@@ -1,0 +1,36 @@
+{
+  "language": "Thok Naath",
+  "languageCode": "nus",
+  "ui": {
+    "search": "go̱r",
+    "next": "wër nhiam",
+    "previous": "wër jɔk",
+    "libraryResources": "kuak laybrëri̱",
+    "noResults": "thiɛlɛ duɔ̱ɔ̱r",
+    "loading": "tëë jäl...",
+    "error": "cɛ nyuɔn",
+    "submit": "tho̱pniy",
+    "cancel": "pälɛ",
+    "home": "locni̱ cieŋ",
+    "about": "kui̱dɛ",
+    "contact": "talɛpoon",
+    "welcome": "bërkɛ mal",
+    "browseCatalog": "go̱r ti̱ diaal",
+    "viewDetails": "go̱r ŋɔak",
+    "download": "käpni piny",
+    "share": "jäkniy",
+    "filterBy": "dääkni̱ kɛ",
+    "sortBy": " thiykɛ",
+    "page": "pec",
+    "of": "duŋ",
+    "results": "duɔ̱r",
+    "categories": "dääkni̱ diɛn",
+    "all": "kɛn diaal",
+  },
+  "messages": {
+    "welcomeMessage": "caa ji̱ ciöl kä BOSC",
+    "searchPlaceholder": "mɛn te thi̱n",
+    "emptySearch": "tha̱ch mi̱ te baaŋ",
+    "resourceNotFound": "thiɛlɛ mi̱ cɛ nööŋ"
+  }
+}
